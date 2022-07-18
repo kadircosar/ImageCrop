@@ -5,7 +5,7 @@ from tqdm import tqdm
 import glob
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-i", "--image", help="path to the images", default="/home/kadir/Downloads/8k_sample")
+ap.add_argument("-i", "--image", help="path to the images")
 args = ap.parse_args()
 
 
