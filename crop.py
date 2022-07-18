@@ -2,9 +2,10 @@ import cv2
 import os
 import argparse
 from tqdm import tqdm
+import glob
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-i", "--image", help="path to the images", default='')
+ap.add_argument("-i", "--image", help="path to the images", default="/home/kadir/Downloads/8k_sample")
 args = ap.parse_args()
 
 
@@ -20,17 +21,14 @@ class CropImage:
         self.image_path = image_path
 
     def list_dir_path(self):
-        list_dir = os.listdir(self.image_path)
+        list_dir = glob.glob(os.path.join(self.image_path, "*.jpg"))
+        list_dir = [os.path.basename(image_name) for image_name in list_dir]
         list_dir.sort()
         return list_dir
 
     def iter_img(self):
-        count = 1
-        new_list_dir: list = []
-        for img in CropImage.list_dir_path(self):
-            if count % 5 == 0:
-                new_list_dir.append(img)
-            count += 1
+        list_dir = CropImage.list_dir_path(self)
+        new_list_dir = [img for index, img in enumerate(list_dir, start=1) if index % 5 == 0]
         return new_list_dir
 
     def height_pixels(self):
@@ -49,8 +47,12 @@ class CropImage:
 
     def crop_and_save(self):
         abs_path = os.path.abspath(os.path.join(self.image_path, os.pardir))
-        os.makedirs(abs_path + "/" + self.output_folder_name)
+
+        if not os.path.exists(abs_path + "/" + self.output_folder_name):
+            os.makedirs(abs_path + "/" + self.output_folder_name)
+
         out_folder_path = os.path.join(abs_path, self.output_folder_name)
+
         for image in tqdm(CropImage.iter_img(self)):
             for index, width in enumerate(CropImage.width_pixel(self)):
                 img_name_split = image.split(".")
@@ -62,10 +64,3 @@ class CropImage:
 
 
 CropImage(args.image).crop_and_save()
-
-
-
-
-
-
-
