@@ -90,14 +90,14 @@ class CropImage:
             import logging
             log = logging.getLogger()
             log.error("This images are not 8k or 4k please check your data!")
-def t_or_f(arg):
-    ua = str(arg).upper()
-    if 'TRUE'.startswith(ua):
+
+
+def string2bool(arg):
+    string_arg = str(arg).upper()
+    if 'TRUE'.startswith(string_arg):
         return True
-    elif 'FALSE'.startswith(ua):
+    elif 'FALSE'.startswith(string_arg):
         return False
-    else:
-        pass
 
 
-CropImage(image_path=args.image, skip_image=t_or_f(args.skipimage)).crop_and_save()
+CropImage(image_path=args.image, skip_image=string2bool(args.skipimage)).crop_and_save()
