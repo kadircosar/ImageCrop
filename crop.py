@@ -21,7 +21,7 @@ class CropImage:
         self.skip_image = skip_image
 
     def list_dir_path(self):
-        list_dir = glob.glob(os.path.join(self.image_path, "*.png"))
+        list_dir = [elem for elem in os.listdir(self.image_path) if elem[-3:] in ["jpg", "png", "jpeg"]]
         list_dir = [os.path.basename(image_name) for image_name in list_dir]
         list_dir.sort()
         return list_dir
