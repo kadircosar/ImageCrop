@@ -21,7 +21,7 @@ class CropImage:
         self.skip_image = skip_image
 
     def list_dir_path(self):
-        list_dir = [elem for elem in os.listdir(self.image_path) if elem[-3:] in ["jpg", "png", "jpeg"]]
+        list_dir = [elem for elem in os.listdir(self.image_path) if elem.split(".")[-1] in ["jpg", "png", "jpeg"]]
         list_dir = [os.path.basename(image_name) for image_name in list_dir]
         list_dir.sort()
         return list_dir
@@ -84,7 +84,7 @@ class CropImage:
     def define_pixel_size(shape):
         if 3000 <= shape < 5000:
             return "4k"
-        if 7000 < shape < 9000:
+        elif 7000 < shape < 9000:
             return "8k"
         else:
             import logging
